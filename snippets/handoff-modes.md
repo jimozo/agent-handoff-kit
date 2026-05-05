@@ -6,6 +6,7 @@ Chat handoff:
 - Do not update session logs.
 - Do not push.
 - Include branch, HEAD, worktree state, changed files, tests, open items, and next steps.
+- Make it self-contained so it can be pasted alone into a new chat.
 
 Full handoff:
 

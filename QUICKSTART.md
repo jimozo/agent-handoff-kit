@@ -70,6 +70,7 @@ Use chat handoff when work continues in a new chat on the same branch:
 - Do not update `SESSIONS.md`.
 - Do not push.
 - Include branch, HEAD, worktree state, commits, changed files, tests, open items, and exact next steps.
+- Make the handoff self-contained so it can be pasted alone into a new chat.
 
 Use full handoff when work is ready for human review:
 

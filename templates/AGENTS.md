@@ -55,6 +55,7 @@ Chat handoff:
 - Do not update session logs.
 - Do not push.
 - Report branch, HEAD commit, clean/dirty state, commits, changed areas, tests, open items, exact next steps, and intentionally uncommitted files.
+- Make the handoff self-contained. Assume the next chat receives only the handoff block.
 
 Full handoff:
 

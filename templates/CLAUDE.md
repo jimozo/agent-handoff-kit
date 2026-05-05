@@ -58,6 +58,7 @@ Rules:
 - Keep `SESSIONS.md` small: latest `<ACTIVE_ENTRY_LIMIT>` full entries only.
 - Preserve older entries verbatim in `SESSIONS_ARCHIVE.md`.
 - Read `SESSIONS_ARCHIVE.md` only when older context is actually needed.
+- Chat handoffs must be self-contained. Do not rely on previous chat text or "next steps above."
 
 ## Handoff Entry Format
 

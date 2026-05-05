@@ -28,6 +28,7 @@ Do:
 - List open items.
 - Give exact next steps.
 - Name any files intentionally left uncommitted.
+- Make the handoff self-contained. Assume the next chat receives only the handoff block.
 
 ## Gather
 
@@ -67,6 +68,17 @@ Next:
 Intentionally uncommitted:
 - <path or "none">
 
-Prompt for next chat:
-Continue work in this repository on branch `<branch-name>`. Read the project startup instructions, the top of `SESSIONS.md`, and relevant project reference sections. Do not restart strategy. First inspect `git status --short --branch`, `git log --oneline main..HEAD`, and `git diff main...HEAD --stat`, then continue from the Next steps above.
+Continuation prompt:
+Continue work in this repository on branch `<branch-name>`.
+
+Current state:
+- HEAD: `<short hash> <subject>`
+- Worktree: clean/dirty
+- Completed: <one-sentence summary>
+- Open: <blocker/risk or "none">
+- Next: <immediate next step>
+
+Start by reading the project startup instructions, the top of `SESSIONS.md`, and relevant project reference sections. Do not restart strategy. First inspect `git status --short --branch`, `git log --oneline main..HEAD`, and `git diff main...HEAD --stat`.
 ```
+
+The whole block is the handoff. It must be safe to paste by itself into a new chat.

@@ -68,6 +68,7 @@ Include:
 - Open risks or blockers
 - Exact next steps
 - Any files intentionally left uncommitted
+- A self-contained continuation prompt that can be pasted alone into a new chat
 
 ## Full Handoff
 
