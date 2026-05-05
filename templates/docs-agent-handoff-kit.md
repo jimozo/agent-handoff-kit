@@ -14,6 +14,8 @@ Defaults:
 - The human owner merges branches into `<MAIN_BRANCH>`.
 - `SESSIONS.md` is the token-light active handoff surface.
 - `SESSIONS_ARCHIVE.md` preserves older entries without forcing every new chat to read them.
+- Root instruction files such as `AGENTS.md` and `CLAUDE.md` stay short, standalone, and focused on every-session behavior.
+- Project facts live in task-relevant docs, not in root instruction files.
 - Chat handoff is for continuing work in a new chat.
 - Full handoff is for review, push, and eventual merge.
 
@@ -35,10 +37,10 @@ At session start, read in this order:
 
 1. Project startup instructions, such as `AGENTS.md`
 2. Top entry in `SESSIONS.md`
-3. Relevant project reference sections, such as `CLAUDE.md` or Cursor rules
-4. Files changed by the active branch, if continuing prior work
+3. Current branch status and recent commits, if continuing work
+4. Task-relevant docs or source files
 
-Do not read `SESSIONS_ARCHIVE.md` by default.
+Do not read broad project docs, generated files, or `SESSIONS_ARCHIVE.md` by default. Read them only when the task depends on that context.
 
 ## Check Previous Agent Work
 
@@ -111,7 +113,7 @@ Current state:
 - Open: <blocker/risk or "none">
 - Next: <immediate next step>
 
-Start by reading the project startup instructions, the top of `SESSIONS.md`, and relevant project reference sections. Do not restart strategy. First inspect `git status --short --branch`, `git log --oneline <MAIN_BRANCH>..HEAD`, and `git diff <MAIN_BRANCH>...HEAD --stat`.
+Start by reading the project startup instructions and the top of `SESSIONS.md`. Read task-relevant docs only as needed. Do not restart strategy. First inspect `git status --short --branch`, `git log --oneline <MAIN_BRANCH>..HEAD`, and `git diff <MAIN_BRANCH>...HEAD --stat`.
 ```
 
 The whole block is the handoff. It must be safe to paste by itself into a new chat.

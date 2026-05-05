@@ -1,6 +1,13 @@
 # Comparison To Other Agent Files
 
-`agent-handoff-kit` is a coordination protocol. It is not a replacement for project-specific instruction files.
+`agent-handoff-kit` is a coordination protocol. It is not a replacement for project-specific docs.
+
+The recommended pattern is:
+
+- Root instruction files, such as `AGENTS.md` and `CLAUDE.md`, stay short and standalone.
+- They contain every-session behavior: startup, branch/git safety, surgical changes, verification, handoffs, and a reference map.
+- Project facts live in task-relevant docs: README, architecture notes, verification docs, launch plans, security docs, or domain-specific references.
+- Agents read broad project context only when the task needs it.
 
 ## `AGENTS.md`
 
@@ -11,23 +18,24 @@ Use it for:
 - What to read first
 - Branching rules
 - Safety rules
-- Repository-specific must-follow instructions
+- Every-session repository rules
+- Links to deeper docs
 
-`agent-handoff-kit` can be referenced from `AGENTS.md`, but should not erase the repo's existing instructions.
+`agent-handoff-kit` can be referenced from `AGENTS.md`, but should not turn it into a long project reference.
 
 ## `CLAUDE.md`
 
-`CLAUDE.md` is commonly a deeper project reference for Claude Code.
+`CLAUDE.md` is commonly Claude Code's startup guide.
 
 Use it for:
 
-- Architecture
-- Commands
-- Code style
-- Product constraints
-- Stable collaboration rules
+- Claude-specific startup order
+- Branching and git safety
+- Handoff rules
+- Verification expectations
+- Links to deeper docs
 
-`agent-handoff-kit` adds a reusable session protocol around it.
+Keep it standalone. Do not make it depend on `AGENTS.md`, and do not make `AGENTS.md` depend on it. If both files exist, duplicate the small set of every-session rules so either agent can operate safely after reading its own guide.
 
 ## Cursor Rules
 
@@ -67,7 +75,7 @@ Prefer `SESSIONS.md` for durable handoff history. Avoid letting `CONTINUE.md` be
 
 Your project files still own:
 
-- Architecture
+- System design
 - Build and test commands
 - Product rules
 - Security constraints

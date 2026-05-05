@@ -1,96 +1,72 @@
-# <PROJECT_NAME>
+# CLAUDE.md - Claude Code Guide
 
-This file is the shared project reference for Claude Code and other agents. Keep it focused on stable project context, not long session history.
+This file is a short operating guide for Claude Code. It should contain only rules useful in every session. Read project details from linked docs only when the task needs them.
 
-## Project Facts
+---
 
-- Main branch: `<MAIN_BRANCH>`
-- Primary language/framework: `<FILL_ME>`
-- Run/test command: `<PRIMARY_COMMANDS>`
-- Local dev command: `<FILL_ME>`
-- Deploy/release notes: `<FILL_ME>`
+## Start
 
-## Architecture
-
-Write the small map an agent needs before editing:
-
-- Main entrypoints: `<FILL_ME>`
-- Important modules/services: `<FILL_ME>`
-- Data/storage/contracts: `<FILL_ME>`
-- External APIs or credentials policy: `<FILL_ME>`
-
-## Project Conventions
-
-- Code style: `<FILL_ME>`
-- Test expectations: `<FILL_ME>`
-- Files or folders agents must not edit without explicit approval: `<DO_NOT_TOUCH_PATHS>`
-- Generated files: `<FILL_ME>`
-- Security/privacy constraints: `<PROJECT_RULES>`
-
-## Multi-Agent Collaboration
-
-This repo uses `agent-handoff-kit`. Git is the coordination system.
-
-The loop:
-
-1. The human owner starts an agent session and gives it a task.
-2. The agent creates its own branch from `<MAIN_BRANCH>`.
-3. The agent works and may make logical commits.
-4. Chat handoff continues work in a new chat without pushing or updating session logs.
-5. Full handoff commits remaining work, updates `SESSIONS.md`, rotates older entries into `SESSIONS_ARCHIVE.md`, pushes the branch, and prints merge commands.
-6. The human owner reviews and merges into `<MAIN_BRANCH>`.
-
-Branch naming:
-
-```text
-codex/YYYY-MM-DD-short-scope
-claude/YYYY-MM-DD-short-scope
-cursor/YYYY-MM-DD-short-scope
-aider/YYYY-MM-DD-short-scope
-```
-
-Rules:
-
-- Never commit directly to `<MAIN_BRANCH>`.
-- Never push `<MAIN_BRANCH>`.
-- Do not share one branch across agents unless the human owner explicitly asks.
-- Do not revert or overwrite unrelated changes from another user or agent.
-- Keep `SESSIONS.md` small: latest `<ACTIVE_ENTRY_LIMIT>` full entries only.
-- Preserve older entries verbatim in `SESSIONS_ARCHIVE.md`.
-- Read `SESSIONS_ARCHIVE.md` only when older context is actually needed.
-- Chat handoffs must be self-contained. Do not rely on previous chat text or "next steps above."
-
-## Handoff Entry Format
-
-```markdown
-## YYYY-MM-DD - <Agent> - <one-line scope>
-**Branch:** <branch-name>
-**Merged:** pending (human merges after review)
-**Scope:** <what was done and why>
-**Changes:**
-- <file or area>: <what changed>
-**Commits:** <short hash and subject>
-**Tests:** <what was tested, or "none - gap">
-**Open:** <anything unresolved or known broken>
-**Next:** <who should do what next>
-```
-
-## Fast Review Of Previous Agent Work
-
-Before continuing another agent's branch, gather:
+1. Run `git status --short --branch`.
+2. Read the newest entry in [SESSIONS.md](./SESSIONS.md). Do not read [SESSIONS_ARCHIVE.md](./SESSIONS_ARCHIVE.md) unless investigating older decisions or regressions.
+3. If starting new work, branch before editing:
 
 ```bash
-git status --short --branch
-git log --oneline <MAIN_BRANCH>..HEAD
-git diff <MAIN_BRANCH>...HEAD --stat
-git diff <MAIN_BRANCH>...HEAD --name-only
+git checkout <MAIN_BRANCH>
+git pull --ff-only
+git checkout -b claude/YYYY-MM-DD-short-scope
 ```
 
-Then read:
+If the human owner asks you to continue an existing branch, stay on it after confirming the branch and worktree state.
 
-- Top `SESSIONS.md` entry
-- Commit subjects from the branch
-- Only changed files relevant to the task
-- Test/check notes from the last handoff
+---
 
-Avoid rereading the whole archive unless the current bug or decision depends on older history.
+## How To Work
+
+- Think before coding. State assumptions, surface tradeoffs, and ask when intent is unclear.
+- Keep it simple. Implement the minimum solution requested; do not add speculative features or abstractions.
+- Make surgical changes. Touch only files and lines needed for the task; mention unrelated issues instead of fixing them.
+- Clean up only your own mess. Remove unused code introduced by your changes; do not delete pre-existing dead code unless asked.
+- Define success before editing. For multi-step work, use a brief plan with a verification check for each step.
+- Verify before handoff. Run the smallest relevant checks and report anything not run.
+
+---
+
+## Git Rules
+
+- Never commit directly to `<MAIN_BRANCH>`.
+- Work on one session branch unless the human owner redirects.
+- Before every commit or handoff, run `git status --short --branch`.
+- Stage only intentional paths. Do not use `git add -A` unless every changed and untracked file belongs to this task.
+- Use logical commits with clear messages.
+- Do not push or update session logs unless the human owner asks for full handoff.
+
+---
+
+## Handoffs
+
+Use the detailed protocol in [docs/agent-handoff-kit.md](./docs/agent-handoff-kit.md) when needed.
+
+**Chat handoff** is for continuing in a new chat. Do not update session logs, push, or print merge commands. Provide one self-contained continuation block with branch, HEAD, worktree state, commits, changed areas, checks run, open items, next steps, and intentionally uncommitted files.
+
+**Full handoff** is for review/merge. Commit remaining intentional work, update [SESSIONS.md](./SESSIONS.md), rotate older entries to [SESSIONS_ARCHIVE.md](./SESSIONS_ARCHIVE.md) if needed, commit the log update, push the branch, and print merge commands for the human owner.
+
+If session-log conflicts happen, preserve every entry and order them newest-first.
+
+---
+
+## What Not To Do
+
+- Do not update `SESSIONS.md` or `SESSIONS_ARCHIVE.md` except during explicit full handoff.
+- Do not add build tools, dependencies, formatting churn, or broad refactors unless explicitly requested.
+- Do not add production debug logging unless debugging a specific reported issue.
+- Do not rely on project facts from memory. Inspect current files or task-relevant docs.
+
+---
+
+## Reference Map
+
+- Current state: [SESSIONS.md](./SESSIONS.md)
+- Handoff protocol: [docs/agent-handoff-kit.md](./docs/agent-handoff-kit.md)
+- Project overview: `<PROJECT_OVERVIEW_DOC>`
+- Build/test docs: `<PROJECT_VERIFY_DOCS>`
+- Technical/domain notes: `<PROJECT_REFERENCE_DOCS>`

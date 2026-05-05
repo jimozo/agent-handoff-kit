@@ -2,6 +2,8 @@
 
 `agent-handoff-kit` keeps multi-agent collaboration small enough for every new agent chat to load quickly.
 
+Root instruction files should stay small. Use `AGENTS.md`, `CLAUDE.md`, Cursor rules, or similar files for every-session behavior: startup order, branch safety, handoff rules, verification expectations, and links to deeper docs. Keep architecture, product facts, release history, security details, and long templates in task-relevant docs.
+
 ## Concepts
 
 - Stable branch: the branch humans merge into, usually `main`.
@@ -17,8 +19,8 @@ Every agent starts by reading:
 
 1. Project startup instructions, such as `AGENTS.md`
 2. Top entry in `SESSIONS.md`
-3. Relevant project reference files
-4. Current branch status and recent commits, if continuing work
+3. Current branch status and recent commits, if continuing work
+4. Task-relevant docs or source files
 
 Then create a branch:
 

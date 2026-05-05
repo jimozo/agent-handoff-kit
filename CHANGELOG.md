@@ -6,6 +6,14 @@ This project follows a lightweight Keep a Changelog style and uses semantic vers
 
 ## Unreleased
 
+## v0.1.2 - 2026-05-05
+
+- Changed `AGENTS.md` and `CLAUDE.md` templates to concise standalone operating guides.
+- Documented that project facts belong in task-relevant docs rather than root instruction files.
+- Updated continuation prompts and install guidance to load broad context only when relevant.
+
+## v0.1.0 - 2026-05-05
+
 - Initial public scaffold.
 - Added agent-installable instructions.
 - Added dependency-free installer script.

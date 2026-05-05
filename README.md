@@ -4,7 +4,7 @@ A Git-native handoff protocol for teams using multiple coding agents in the same
 
 `agent-handoff-kit` gives Codex, Claude Code, Cursor, Aider, and other coding agents a shared way to start work, review the last agent, hand off context, rotate session logs, and leave branches ready for human review.
 
-It complements existing project instructions. It does not replace `AGENTS.md`, `CLAUDE.md`, Cursor rules, `CONTINUE.md`, or your repo-specific agent files.
+It complements existing project docs. It gives root instruction files a concise every-session shape and points agents to deeper docs only when the task needs them.
 
 ## What This Adds
 
@@ -14,6 +14,7 @@ It complements existing project instructions. It does not replace `AGENTS.md`, `
 - Two handoff modes: chat handoff and full handoff
 - Last-agent review commands for quickly continuing another agent's branch
 - Conflict rules for concurrent agent branches
+- Concise standalone `AGENTS.md` and `CLAUDE.md` templates
 - Agent-installable instructions in `INSTALL_FOR_AGENTS.md`
 - Optional dependency-free installer script
 
@@ -90,14 +91,6 @@ The human owner merges reviewed branches into the main branch.
 - [docs/session-log-rotation.md](./docs/session-log-rotation.md): active log and archive rules
 - [docs/conflict-handling.md](./docs/conflict-handling.md): merge conflict rules
 - [docs/comparison.md](./docs/comparison.md): comparison to `AGENTS.md`, `CLAUDE.md`, Cursor rules, and `CONTINUE.md`
-
-## How This Differs From Agent Orchestrators
-
-This is not an agent runner, dashboard, MCP bridge, or worktree manager.
-
-`agent-handoff-kit` is the repo-resident coordination layer: Markdown templates, Git branch rules, session logs, handoff formats, and conflict rules that any coding agent can follow inside an existing project.
-
-It works alongside tools such as Claude Code, Codex, Cursor, Aider, worktrees, MCP servers, and local orchestration dashboards.
 
 ## License
 

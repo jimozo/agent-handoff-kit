@@ -78,7 +78,7 @@ Current state:
 - Open: <blocker/risk or "none">
 - Next: <immediate next step>
 
-Start by reading the project startup instructions, the top of `SESSIONS.md`, and relevant project reference sections. Do not restart strategy. First inspect `git status --short --branch`, `git log --oneline main..HEAD`, and `git diff main...HEAD --stat`.
+Start by reading the project startup instructions and the top of `SESSIONS.md`. Read task-relevant docs only as needed. Do not restart strategy. First inspect `git status --short --branch`, `git log --oneline main..HEAD`, and `git diff main...HEAD --stat`.
 ```
 
 The whole block is the handoff. It must be safe to paste by itself into a new chat.

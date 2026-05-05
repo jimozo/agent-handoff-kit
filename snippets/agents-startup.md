@@ -5,7 +5,7 @@ This repo uses `agent-handoff-kit`.
 At the start of every agent session:
 
 1. Read the top entry in `SESSIONS.md`.
-2. Read the project-specific rules for architecture, commands, and constraints.
+2. Read task-relevant project docs only when the work needs them.
 3. Create an agent branch before editing:
 
 ```bash

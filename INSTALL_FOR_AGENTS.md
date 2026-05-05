@@ -12,6 +12,8 @@ Install a lightweight, dependency-free multi-agent handoff protocol into the tar
 
 - Preserve existing `AGENTS.md`, `CLAUDE.md`, Cursor rules, `CONTINUE.md`, and other agent files.
 - Do not overwrite files unless the user explicitly asks or you are using `scripts/install.sh --force`.
+- Keep root instruction files short, standalone, and focused on every-session behavior.
+- Put project facts in task-relevant docs and link to them from the root guide reference map.
 - Do not include personal names, private paths, secrets, or machine-specific details in installed public-facing files.
 - Keep the active session log limit at `4` unless the user asks for a different value.
 - Use branch prefixes `codex/`, `claude/`, `cursor/`, and `aider/` unless the project already has a stronger convention.
@@ -58,9 +60,9 @@ Fill placeholders in the installed files:
 - `<PROJECT_NAME>`
 - `<MAIN_BRANCH>`
 - `<ACTIVE_ENTRY_LIMIT>`
-- `<PRIMARY_COMMANDS>`
-- `<PROJECT_RULES>`
-- `<DO_NOT_TOUCH_PATHS>`
+- `<PROJECT_OVERVIEW_DOC>`
+- `<PROJECT_VERIFY_DOCS>`
+- `<PROJECT_REFERENCE_DOCS>`
 
 Then run:
 
@@ -78,6 +80,7 @@ Report:
 ## Do Not
 
 - Do not rewrite the project's architecture notes.
+- Do not turn `AGENTS.md` or `CLAUDE.md` into architecture notes.
 - Do not move older project-specific handoff logs unless the user asked for migration.
 - Do not push, commit, or open a pull request unless the user asked for that as part of the install.
 - Do not add private local paths or user names to installed templates.

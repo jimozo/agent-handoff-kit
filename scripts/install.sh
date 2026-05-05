@@ -124,6 +124,6 @@ fi
 
 echo
 echo "Next steps:"
-echo "  1. Replace placeholders such as <PROJECT_NAME>, <PRIMARY_COMMANDS>, and <PROJECT_RULES>."
+echo "  1. Replace placeholders such as <PROJECT_NAME>, <PROJECT_OVERVIEW_DOC>, and <PROJECT_VERIFY_DOCS>."
 echo "  2. If AGENTS.md or CLAUDE.md already existed, merge snippets manually instead of replacing project rules."
 echo "  3. Run: git status --short --branch"

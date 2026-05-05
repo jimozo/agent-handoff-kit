@@ -14,7 +14,7 @@ The installer is conservative:
 
 - It creates missing handoff files.
 - It skips existing files by default.
-- It writes project-specific docs under `docs/agent-handoff-kit/`.
+- It writes the handoff protocol to `docs/agent-handoff-kit.md`.
 - It does not replace existing `AGENTS.md`, `CLAUDE.md`, Cursor rules, or `CONTINUE.md` unless you pass `--force`.
 
 Manual install is also fine: copy files from `templates/` into your repo root and copy `docs/protocol.md` into your repo docs.
@@ -26,10 +26,11 @@ Edit installed templates and replace:
 - `<PROJECT_NAME>`
 - `<MAIN_BRANCH>`; default: `main`
 - `<ACTIVE_ENTRY_LIMIT>`; default: `4`
-- `<PRIMARY_COMMANDS>`
-- `<PROJECT_RULES>`
+- `<PROJECT_OVERVIEW_DOC>`
+- `<PROJECT_VERIFY_DOCS>`
+- `<PROJECT_REFERENCE_DOCS>`
 
-Keep private machine paths, personal notes, and secrets out of shared agent files.
+Keep root instruction files short and focused on every-session behavior. Put architecture, commands, product facts, security notes, and long templates in task-relevant docs, then link to those docs from the reference map. Keep private machine paths, personal notes, and secrets out of shared agent files.
 
 ## 3. Start Each Agent Session
 
