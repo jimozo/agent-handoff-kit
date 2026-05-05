@@ -91,6 +91,14 @@ The human owner merges reviewed branches into the main branch.
 - [docs/conflict-handling.md](./docs/conflict-handling.md): merge conflict rules
 - [docs/comparison.md](./docs/comparison.md): comparison to `AGENTS.md`, `CLAUDE.md`, Cursor rules, and `CONTINUE.md`
 
+## How This Differs From Agent Orchestrators
+
+This is not an agent runner, dashboard, MCP bridge, or worktree manager.
+
+`agent-handoff-kit` is the repo-resident coordination layer: Markdown templates, Git branch rules, session logs, handoff formats, and conflict rules that any coding agent can follow inside an existing project.
+
+It works alongside tools such as Claude Code, Codex, Cursor, Aider, worktrees, MCP servers, and local orchestration dashboards.
+
 ## License
 
 MIT. See [LICENSE](./LICENSE).
