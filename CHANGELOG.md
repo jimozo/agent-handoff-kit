@@ -6,6 +6,12 @@ This project follows a lightweight Keep a Changelog style and uses semantic vers
 
 ## Unreleased
 
+## v0.2.1 - 2026-06-04
+
+- Made `install.sh --upgrade` non-destructive by default: it now writes a `.upgrade-agent-handoff-kit` candidate for manual review and only replaces the live protocol doc when `--force` is also passed.
+- Made `handoff.sh --mode switch` refuse dirty worktrees by default, with an explicit `--allow-dirty` escape hatch for rare intentional-dirty relays.
+- Improved `validate.sh` to check required `SESSIONS.md` fields per entry instead of relying on global field counts.
+
 ## v0.2.0 - 2026-06-04
 
 - Added a third handoff mode: **agent-switch handoff** for continuing the same branch in a different tool (for example Claude to Codex) mid-work, with a `CONTINUE.md` relay note. New `docs/agent-switch-handoff.md`; `CONTINUE.md` template restructured as the relay surface.

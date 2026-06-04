@@ -149,6 +149,9 @@ Do not:
 - Update `SESSIONS.md` or `SESSIONS_ARCHIVE.md`.
 - Push or print a human merge block, unless you also want a full handoff.
 - Rotate session logs.
+- Leave a dirty worktree unless the dirty files are intentionally out of scope and explicitly listed in `CONTINUE.md`.
+
+`scripts/handoff.sh --mode switch` refuses a dirty worktree by default. Use `--allow-dirty` only when the dirty paths are deliberate and named in the relay note.
 
 Relay note (`CONTINUE.md`):
 

@@ -35,6 +35,7 @@ Do not:
 - Update `SESSIONS.md` or `SESSIONS_ARCHIVE.md`.
 - Push or print a human merge block, unless you also want a full handoff.
 - Rotate session logs.
+- Leave a dirty worktree unless the dirty files are intentionally out of scope and explicitly listed in `CONTINUE.md`.
 
 ## Gather
 
@@ -44,7 +45,7 @@ git log --oneline <MAIN_BRANCH>..HEAD
 git diff <MAIN_BRANCH>...HEAD --stat
 ```
 
-`scripts/handoff.sh --mode switch` gathers these and prints a pre-filled relay note.
+`scripts/handoff.sh --mode switch` gathers these and prints a pre-filled relay note. It refuses a dirty worktree by default; use `--allow-dirty` only for deliberate out-of-scope dirty files and list each one in the relay note.
 
 ## Relay Note (`CONTINUE.md`)
 

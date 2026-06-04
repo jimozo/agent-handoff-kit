@@ -91,7 +91,7 @@ Report:
 If you keep the whole `agent-handoff-kit/` folder inside the target repo (instead of installing from a sibling clone), follow one rule to avoid two competing copies of the protocol:
 
 - The installed `docs/<protocol>.md` is the **single source of truth**. Edit project handoff rules only there.
-- Treat the vendored `agent-handoff-kit/` folder as **read-only upstream**. Update it only to pull a new kit version, then run `scripts/install.sh --upgrade` to re-stamp and re-fill the installed doc.
+- Treat the vendored `agent-handoff-kit/` folder as **read-only upstream**. Update it only to pull a new kit version, then run `scripts/install.sh --upgrade` to generate a reviewed protocol-doc candidate. Manually merge repo-specific changes into the live doc, or pass `--force` only when replacing the live protocol doc is intentional.
 
 ## Do Not
 

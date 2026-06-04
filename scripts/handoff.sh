@@ -8,6 +8,7 @@ TARGET="."
 MODE="chat"
 MAIN_BRANCH=""
 PROJECT_NAME=""
+ALLOW_DIRTY_SWITCH=0
 
 usage() {
   cat <<'USAGE'
@@ -18,6 +19,7 @@ Options:
   --target PATH        Repo (default: .)
   --main-branch NAME   Base branch for diffs (default: auto-detect, then main)
   --project-name NAME  Default: repo folder name
+  --allow-dirty        Allow --mode switch to print a relay note on a dirty tree
   -h, --help           Show this help
 
 Prints a pre-filled handoff block to stdout. Fill the <...> blanks before use.
@@ -30,6 +32,7 @@ while [ "$#" -gt 0 ]; do
     --target) TARGET="$2"; shift 2 ;;
     --main-branch) MAIN_BRANCH="$2"; shift 2 ;;
     --project-name) PROJECT_NAME="$2"; shift 2 ;;
+    --allow-dirty) ALLOW_DIRTY_SWITCH=1; shift ;;
     -h|--help) usage; exit 0 ;;
     *) echo "Unknown option: $1" >&2; usage >&2; exit 1 ;;
   esac
@@ -69,6 +72,14 @@ COMMITS=$(g log --oneline "$MAIN_BRANCH..HEAD" 2>/dev/null || true)
 DIFFSTAT=$(g diff "$MAIN_BRANCH...HEAD" --stat 2>/dev/null || true)
 [ -n "$DIFFSTAT" ] || DIFFSTAT="(no committed diff vs $MAIN_BRANCH)"
 
+if [ "$MODE" = "switch" ] && [ "$WORKTREE" = "dirty" ] && [ "$ALLOW_DIRTY_SWITCH" -ne 1 ]; then
+  echo "Refusing agent-switch handoff on a dirty worktree." >&2
+  echo "Commit a checkpoint first, or re-run with --allow-dirty and list the intentionally dirty paths in CONTINUE.md." >&2
+  echo >&2
+  g status --short --branch >&2
+  exit 1
+fi
+
 print_chat() {
   cat <<EOF
 # Chat Handoff - $PROJECT_NAME
@@ -106,12 +117,17 @@ EOF
 }
 
 print_switch() {
+  if [ "$WORKTREE" = "dirty" ]; then
+    head_note="dirty override used; list intentionally dirty paths below"
+  else
+    head_note="WIP checkpoint committed"
+  fi
   cat <<EOF
 # CONTINUE - $PROJECT_NAME
 
 From: <agent> -> To: <agent>
 Branch: \`$BRANCH\`
-HEAD: \`$HEAD_LINE\`  (commit a WIP checkpoint first if worktree is $WORKTREE)
+HEAD: \`$HEAD_LINE\`  ($head_note)
 Worktree: $WORKTREE
 
 ## Focus

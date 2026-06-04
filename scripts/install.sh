@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-KIT_VERSION="0.2.0"
+KIT_VERSION="0.2.1"
 
 TARGET="."
 FORCE=0
@@ -24,8 +24,8 @@ project bindings so no <PLACEHOLDER> tokens are left behind.
 Options:
   --target PATH              Target repo (default: .)
   --force                    Overwrite existing files
-  --upgrade                  Refresh only the protocol doc (re-stamp version +
-                             re-fill bindings); preserves AGENTS.md/CLAUDE.md/logs
+  --upgrade                  Render an upgraded protocol doc candidate without
+                             overwriting the live doc unless --force is passed
   --main-branch NAME         Default: main
   --active-entry-limit N     Default: 4
   --project-name NAME        Project name (defaults to target folder name)
@@ -36,7 +36,8 @@ Options:
                              (default: agent-handoff-kit.md)
   -h, --help                 Show this help
 
-Existing files are skipped unless --force or --upgrade is provided.
+Existing files are skipped unless --force is provided. Upgrade mode writes a
+candidate file by default.
 USAGE
 }
 
@@ -145,12 +146,32 @@ install_template() {
 PROTOCOL_DEST="$TARGET/docs/$PROTOCOL_DOC_NAME"
 
 if [ "$UPGRADE" -eq 1 ]; then
-  # Upgrade refreshes only the kit-owned protocol doc, preserving project files.
-  render "$TEMPLATE_DIR/docs-agent-handoff-kit.md" "$PROTOCOL_DEST.tmp.agent-handoff-kit"
-  mv "$PROTOCOL_DEST.tmp.agent-handoff-kit" "$PROTOCOL_DEST"
-  echo "agent-handoff-kit upgrade complete (v$KIT_VERSION)."
-  echo "Refreshed: $PROTOCOL_DEST"
-  echo "AGENTS.md, CLAUDE.md, and session logs were left untouched."
+  # Upgrade mode is non-destructive by default because the installed protocol
+  # doc is the repo-specific source of truth. Generate a candidate for review;
+  # only replace the live doc when the caller also passes --force.
+  candidate="$PROTOCOL_DEST.upgrade-agent-handoff-kit"
+  tmp="$PROTOCOL_DEST.tmp.agent-handoff-kit"
+  render "$TEMPLATE_DIR/docs-agent-handoff-kit.md" "$tmp"
+
+  if [ "$FORCE" -eq 1 ]; then
+    mv "$tmp" "$PROTOCOL_DEST"
+    rm -f "$candidate"
+    echo "agent-handoff-kit upgrade complete (v$KIT_VERSION)."
+    echo "Refreshed: $PROTOCOL_DEST"
+    echo "AGENTS.md, CLAUDE.md, CONTINUE.md, and session logs were left untouched."
+  elif [ -f "$PROTOCOL_DEST" ] && cmp -s "$tmp" "$PROTOCOL_DEST"; then
+    rm -f "$tmp" "$candidate"
+    echo "agent-handoff-kit upgrade complete (v$KIT_VERSION)."
+    echo "No protocol changes needed: $PROTOCOL_DEST is already current."
+    echo "AGENTS.md, CLAUDE.md, CONTINUE.md, and session logs were left untouched."
+  else
+    mv "$tmp" "$candidate"
+    echo "agent-handoff-kit upgrade candidate generated (v$KIT_VERSION)."
+    echo "Candidate: $candidate"
+    echo "Live doc left unchanged: $PROTOCOL_DEST"
+    echo "Review/merge repo-specific rules manually, or re-run with --upgrade --force to replace the live doc."
+    echo "AGENTS.md, CLAUDE.md, CONTINUE.md, and session logs were left untouched."
+  fi
 else
   install_template "$TEMPLATE_DIR/AGENTS.md" "$TARGET/AGENTS.md"
   install_template "$TEMPLATE_DIR/CLAUDE.md" "$TARGET/CLAUDE.md"
@@ -168,7 +189,7 @@ fi
 # Post-install: scan installed files for leftover ALL-CAPS binding placeholders.
 echo
 leftover=""
-for f in "$TARGET/AGENTS.md" "$TARGET/CLAUDE.md" "$PROTOCOL_DEST" "$TARGET/CONTINUE.md"; do
+for f in "$TARGET/AGENTS.md" "$TARGET/CLAUDE.md" "$PROTOCOL_DEST" "$TARGET/CONTINUE.md" "$PROTOCOL_DEST.upgrade-agent-handoff-kit"; do
   [ -f "$f" ] || continue
   hits=$(grep -nE '<[A-Z][A-Z_]+>' "$f" || true)
   if [ -n "$hits" ]; then
@@ -190,5 +211,6 @@ echo
 echo "Next steps:"
 echo "  1. Review the Reference Map links in AGENTS.md / CLAUDE.md (defaulted to README.md)."
 echo "  2. If AGENTS.md or CLAUDE.md already existed, merge snippets manually instead of replacing project rules."
-echo "  3. Run: scripts/validate.sh --target $TARGET"
-echo "  4. Run: git status --short --branch"
+echo "  3. If upgrade mode produced a .upgrade-agent-handoff-kit file, manually merge it into the live protocol doc or delete it."
+echo "  4. Run: scripts/validate.sh --target $TARGET"
+echo "  5. Run: git status --short --branch"

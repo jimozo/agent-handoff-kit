@@ -48,7 +48,7 @@ Use the detailed protocol in [docs/agent-handoff-kit.md](./docs/agent-handoff-ki
 
 **Chat handoff** is for continuing in a new chat in the same tool. Do not update session logs, push, or print merge commands. Provide one self-contained continuation block with branch, HEAD, worktree state, commits, changed areas, checks run, open items, next steps, and intentionally uncommitted files.
 
-**Agent-switch handoff** is for continuing the same branch in a different tool (for example Claude to Codex) mid-work. Commit work first, then leave a relay note in [CONTINUE.md](./CONTINUE.md). Do not update session logs, push, or merge.
+**Agent-switch handoff** is for continuing the same branch in a different tool (for example Claude to Codex) mid-work. Commit work first, then leave a relay note in [CONTINUE.md](./CONTINUE.md). If dirty files must remain, list each intentional path in the relay note. Do not update session logs, push, or merge.
 
 **Full handoff** is for review/merge. Commit remaining intentional work, update [SESSIONS.md](./SESSIONS.md), rotate older entries to [SESSIONS_ARCHIVE.md](./SESSIONS_ARCHIVE.md) if needed, commit the log update, push the branch, and print merge commands for the human owner.
 
