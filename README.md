@@ -82,7 +82,7 @@ aider/YYYY-MM-DD-short-scope
 
 The human owner merges reviewed branches into the main branch.
 
-The installed `docs/<protocol>.md` is the single source of truth for the protocol. If you vendor the whole `agent-handoff-kit/` folder inside a repo, treat that folder as read-only upstream and edit rules only in the installed doc. See [INSTALL_FOR_AGENTS.md](./INSTALL_FOR_AGENTS.md).
+The installed `docs/<protocol>.md` is the single source of truth for the protocol. If you vendor the whole `agent-handoff-kit/` folder inside a repo, treat that folder as read-only upstream and edit rules only in the installed doc. Kit upgrades generate a candidate protocol doc for review instead of overwriting custom repo rules by default. See [INSTALL_FOR_AGENTS.md](./INSTALL_FOR_AGENTS.md).
 
 ## Documentation
 

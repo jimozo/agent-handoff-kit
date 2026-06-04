@@ -74,12 +74,43 @@ if [ -f "$SESSIONS" ]; then
   fi
 
   if [ "$entries" -gt 0 ]; then
-    for label in Branch Scope Changes Tests Open Next; do
-      count=$(grep -cE "^\*\*$label:" "$SESSIONS" || true)
-      if [ "$count" -lt "$entries" ]; then
-        warn "SESSIONS.md: '$label' appears $count time(s) for $entries entr(y/ies); some entries may be missing it"
-      fi
-    done
+    missing_report=$(
+      awk '
+        BEGIN {
+          label_count = split("Branch Scope Changes Tests Open Next", labels, " ")
+        }
+        function check_entry() {
+          if (!in_entry) return
+          missing = ""
+          for (i = 1; i <= label_count; i++) {
+            label = labels[i]
+            if (!(label in seen)) missing = missing " " label
+          }
+          if (missing != "") {
+            printf "entry starting at line %d missing:%s\n", entry_line, missing
+          }
+        }
+        /^## / {
+          check_entry()
+          in_entry = 1
+          entry_line = NR
+          delete seen
+          next
+        }
+        in_entry {
+          for (i = 1; i <= label_count; i++) {
+            label = labels[i]
+            pattern = "^\\*\\*" label ":"
+            if ($0 ~ pattern) seen[label] = 1
+          }
+        }
+        END { check_entry() }
+      ' "$SESSIONS"
+    )
+    if [ -n "$missing_report" ]; then
+      warn "SESSIONS.md entries missing required fields:"
+      echo "$missing_report" | sed 's/^/      /'
+    fi
   fi
 else
   warn "no SESSIONS.md found at $SESSIONS"

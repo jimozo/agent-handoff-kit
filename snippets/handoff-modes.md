@@ -15,6 +15,7 @@ Agent-switch handoff:
 - Write a relay note to `CONTINUE.md` (from/to agent, branch, HEAD, focus, next step, do-not-redo).
 - Do not update session logs, push, or print a merge block.
 - Name which startup file the incoming tool reads first (Codex: `AGENTS.md`, Claude: `CLAUDE.md`).
+- If dirty files must remain, use an explicit dirty override and list every intentionally dirty path.
 
 Full handoff:
 
