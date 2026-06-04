@@ -1,12 +1,25 @@
-# Agent Handoff Kit
+# Agent Handoff Kit - <PROJECT_NAME>
+
+<!-- agent-handoff-kit: version stamp added by installer -->
 
 Reusable rules for projects where Codex, Claude Code, Cursor, Aider, or other coding agents work in the same repo and a human owner merges to the stable branch.
 
-Defaults:
+This file is the **single source of truth** for this repo's branch/handoff/merge protocol. If the kit is vendored in-repo (for example an `agent-handoff-kit/` folder), treat that folder as read-only upstream and edit rules only here. Never fork these rules into a second live doc.
 
-- Main branch: `<MAIN_BRANCH>`
-- Active session log limit: `<ACTIVE_ENTRY_LIMIT>`
-- Branch prefixes: `codex/`, `claude/`, `cursor/`, `aider/`
+## Project Bindings
+
+Fill this table once at install time. The rest of this doc resolves its upper-case placeholders from here.
+
+| Binding | Value |
+|---|---|
+| Project name | `<PROJECT_NAME>` |
+| Main branch | `<MAIN_BRANCH>` |
+| Active session log limit | `<ACTIVE_ENTRY_LIMIT>` |
+| Session log | `SESSIONS.md` |
+| Session archive | `SESSIONS_ARCHIVE.md` |
+| Branch prefixes | `codex/`, `claude/`, `cursor/`, `aider/` |
+
+Lowercase per-use tokens below (such as `<branch-name>`, `<short hash>`, `<agent>`) are filled in each handoff, not at install time.
 
 ## Core Model
 
@@ -16,7 +29,8 @@ Defaults:
 - `SESSIONS_ARCHIVE.md` preserves older entries without forcing every new chat to read them.
 - Root instruction files such as `AGENTS.md` and `CLAUDE.md` stay short, standalone, and focused on every-session behavior.
 - Project facts live in task-relevant docs, not in root instruction files.
-- Chat handoff is for continuing work in a new chat.
+- Chat handoff is for continuing work in a new chat in the same tool.
+- Agent-switch handoff is for continuing the same branch in a different tool (for example Claude to Codex), mid-work, without merging.
 - Full handoff is for review, push, and eventual merge.
 
 ## Start Session
@@ -117,6 +131,63 @@ Start by reading the project startup instructions and the top of `SESSIONS.md`. 
 ```
 
 The whole block is the handoff. It must be safe to paste by itself into a new chat.
+
+## Agent-Switch Handoff
+
+Use when the same branch should continue in a different tool (for example Claude to Codex) mid-work, before it is ready for human review.
+
+A cross-tool switch cannot rely on uncommitted in-memory state the way a same-tool chat can: the next tool starts cold. So commit work first, and leave a durable branch-local relay note in `CONTINUE.md`.
+
+Do:
+
+- Commit work in progress so the tree is clean and readable: `git commit -m "chore(handoff): switch checkpoint"` (or a `wip(scope):` commit).
+- Write the relay note to `CONTINUE.md` (see template below).
+- Name which startup file the incoming tool reads first: Codex reads `AGENTS.md`, Claude reads `CLAUDE.md`.
+
+Do not:
+
+- Update `SESSIONS.md` or `SESSIONS_ARCHIVE.md`.
+- Push or print a human merge block, unless you also want a full handoff.
+- Rotate session logs.
+
+Relay note (`CONTINUE.md`):
+
+```markdown
+# CONTINUE - <PROJECT_NAME>
+
+From: <agent> -> To: <agent>
+Branch: `<branch-name>`
+HEAD: `<short hash> <subject>`  (WIP checkpoint committed)
+Worktree: clean/dirty
+
+Focus:
+- <the one active task>
+
+Next step:
+1. <immediate next action for the incoming tool>
+
+Do not redo:
+- <work already done; do not revert or re-derive>
+
+Intentionally dirty:
+- <path or "none">
+
+Incoming tool reads first: <AGENTS.md for Codex / CLAUDE.md for Claude>, then this file.
+```
+
+Delete `CONTINUE.md` (or clear it) once the relay is consumed, so it never becomes a second stale log.
+
+## Agent Ownership Map
+
+Optional. Use when two or more agents regularly edit the same repo and you want to avoid collisions and reformat churn.
+
+Record which agent owns which paths, then follow one rule: edit another agent's owned paths only when the task requires it, and never reformat them.
+
+| Path glob | Owning agent |
+|---|---|
+| `<path/glob>` | `<agent>` |
+
+Leave this table empty if the project does not need it.
 
 ## Full Handoff
 

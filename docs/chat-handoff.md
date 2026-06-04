@@ -38,7 +38,7 @@ git log --oneline main..HEAD
 git diff main...HEAD --stat
 ```
 
-Use the project main branch if it is not `main`.
+Use the project main branch if it is not `main`. Or run `scripts/handoff.sh --mode chat` to gather these and print a pre-filled block.
 
 ## Output Template
 

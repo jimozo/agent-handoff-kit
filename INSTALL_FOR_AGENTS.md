@@ -53,20 +53,29 @@ If the target repo already has `AGENTS.md` or `CLAUDE.md`, do not replace it. In
 3. Add the relevant snippet from `snippets/` if it fits the existing style.
 4. Keep project-specific rules intact.
 
-## After Install
+## Bindings
 
-Fill placeholders in the installed files:
-
-- `<PROJECT_NAME>`
-- `<MAIN_BRANCH>`
-- `<ACTIVE_ENTRY_LIMIT>`
-- `<PROJECT_OVERVIEW_DOC>`
-- `<PROJECT_VERIFY_DOCS>`
-- `<PROJECT_REFERENCE_DOCS>`
-
-Then run:
+The installer fills every `<UPPER_CASE>` binding placeholder. Prefer passing flags so nothing is left blank:
 
 ```bash
+./agent-handoff-kit/scripts/install.sh --target . \
+  --project-name "MyProject" \
+  --main-branch main \
+  --overview-doc README.md \
+  --verify-docs docs/testing.md \
+  --reference-docs docs/architecture.md
+```
+
+If a repo already uses a different protocol filename (for example `docs/merge-instructions.md`), keep it with `--protocol-doc-name merge-instructions.md` so existing links and session-log references stay valid.
+
+If you install manually, fill the single `## Project Bindings` table at the top of the protocol doc; the rest of the doc resolves its placeholders from there. Lowercase per-use tokens (such as `<branch-name>`) are filled per handoff, not at install.
+
+## After Install
+
+The installer reports leftover placeholders automatically. To double-check, run the validator:
+
+```bash
+./agent-handoff-kit/scripts/validate.sh --target .
 git status --short --branch
 ```
 
@@ -74,8 +83,15 @@ Report:
 
 - Files created
 - Files skipped because they already existed
-- Placeholders still needing project-specific values
+- Any binding placeholders still flagged by the installer or validator
 - Any existing agent files that should be manually merged
+
+## Vendoring The Kit In-Repo
+
+If you keep the whole `agent-handoff-kit/` folder inside the target repo (instead of installing from a sibling clone), follow one rule to avoid two competing copies of the protocol:
+
+- The installed `docs/<protocol>.md` is the **single source of truth**. Edit project handoff rules only there.
+- Treat the vendored `agent-handoff-kit/` folder as **read-only upstream**. Update it only to pull a new kit version, then run `scripts/install.sh --upgrade` to re-stamp and re-fill the installed doc.
 
 ## Do Not
 

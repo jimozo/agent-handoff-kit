@@ -1,17 +1,32 @@
-# CONTINUE.md
+# CONTINUE - <PROJECT_NAME>
 
-Use this file only for a short, temporary continuation note when the project already relies on it. Prefer `SESSIONS.md` for durable handoff entries.
+Branch-local relay note for an **agent-switch handoff**: continuing the same branch in a different tool (for example Claude to Codex), mid-work, before human review.
 
-## Current Focus
+This is temporary. Delete or clear it once the incoming tool has consumed it. Use `SESSIONS.md` for durable handoff history, not this file.
 
-- `<FILL_ME>`
+---
+
+From: `<agent>` -> To: `<agent>`
+Branch: `<branch-name>`
+HEAD: `<short hash> <subject>`  (WIP checkpoint committed)
+Worktree: clean/dirty
+
+## Focus
+
+- `<the one active task>`
 
 ## Immediate Next Step
 
-1. `<FILL_ME>`
+1. `<the next action for the incoming tool>`
 
-## Notes
+## Do Not Redo
 
-- Keep this file short.
-- Move durable session history to `SESSIONS.md` during full handoff.
-- Delete stale notes when they no longer represent the active branch.
+- `<work already done; do not revert or re-derive>`
+
+## Intentionally Dirty
+
+- `<path or "none">`
+
+---
+
+Incoming tool reads first: `<AGENTS.md for Codex / CLAUDE.md for Claude>`, then this file.
