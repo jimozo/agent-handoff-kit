@@ -17,6 +17,7 @@ Use it when:
 - Keep only the latest 4 full entries in `SESSIONS.md` by default.
 - Move older entries to `SESSIONS_ARCHIVE.md`.
 - Commit the session-log update separately.
+- Run `scripts/validate.sh` before pushing (checks placeholders, log size, and entry completeness).
 - Push the branch.
 - Print merge commands for the human owner.
 

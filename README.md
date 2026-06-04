@@ -11,12 +11,14 @@ It complements existing project docs. It gives root instruction files a concise 
 - A small active session log agents read first: `SESSIONS.md`
 - An archive for older entries: `SESSIONS_ARCHIVE.md`
 - Branch-per-agent workflow with default prefixes: `codex/`, `claude/`, `cursor/`, `aider/`
-- Two handoff modes: chat handoff and full handoff
+- Three handoff modes: chat handoff, agent-switch handoff (cross-tool relay), and full handoff
+- A `CONTINUE.md` relay note for switching tools mid-work (Claude to Codex and back)
 - Last-agent review commands for quickly continuing another agent's branch
 - Conflict rules for concurrent agent branches
+- An optional agent ownership map for who-edits-what
 - Concise standalone `AGENTS.md` and `CLAUDE.md` templates
 - Agent-installable instructions in `INSTALL_FOR_AGENTS.md`
-- Optional dependency-free installer script
+- Dependency-free installer that fills all bindings, plus `validate.sh` and `handoff.sh` helpers
 
 ## When To Use It
 
@@ -80,13 +82,16 @@ aider/YYYY-MM-DD-short-scope
 
 The human owner merges reviewed branches into the main branch.
 
+The installed `docs/<protocol>.md` is the single source of truth for the protocol. If you vendor the whole `agent-handoff-kit/` folder inside a repo, treat that folder as read-only upstream and edit rules only in the installed doc. See [INSTALL_FOR_AGENTS.md](./INSTALL_FOR_AGENTS.md).
+
 ## Documentation
 
 - [QUICKSTART.md](./QUICKSTART.md): install and use the kit in a few minutes
 - [INSTALL_FOR_AGENTS.md](./INSTALL_FOR_AGENTS.md): exact instructions an agent can follow
 - [docs/protocol.md](./docs/protocol.md): full handoff protocol
 - [docs/last-agent-review.md](./docs/last-agent-review.md): review previous agent work
-- [docs/chat-handoff.md](./docs/chat-handoff.md): continue work in a new chat
+- [docs/chat-handoff.md](./docs/chat-handoff.md): continue work in a new chat (same tool)
+- [docs/agent-switch-handoff.md](./docs/agent-switch-handoff.md): continue the same branch in a different tool, mid-work
 - [docs/full-handoff.md](./docs/full-handoff.md): prepare a branch for review and merge
 - [docs/session-log-rotation.md](./docs/session-log-rotation.md): active log and archive rules
 - [docs/conflict-handling.md](./docs/conflict-handling.md): merge conflict rules

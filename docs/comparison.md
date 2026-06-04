@@ -51,15 +51,15 @@ Keep them. Add a short reference to `SESSIONS.md` and the handoff protocol if Cu
 
 ## `CONTINUE.md`
 
-`CONTINUE.md` is useful for temporary continuation notes, especially in projects that already use it.
+In this kit, `CONTINUE.md` is the **agent-switch relay surface**: the branch-local note one tool leaves for another when continuing the same branch mid-work (see [agent-switch-handoff.md](./agent-switch-handoff.md)).
 
 Use it for:
 
-- One active focus
-- Short next-step notes
-- Temporary branch-local state
+- One active focus and the immediate next step
+- What the incoming tool should not redo
+- Temporary branch-local state during a tool switch
 
-Prefer `SESSIONS.md` for durable handoff history. Avoid letting `CONTINUE.md` become a second long archive.
+Prefer `SESSIONS.md` for durable handoff history. Clear or delete `CONTINUE.md` once the incoming tool consumes it, so it never becomes a second stale log.
 
 ## What This Kit Owns
 
@@ -68,9 +68,11 @@ Prefer `SESSIONS.md` for durable handoff history. Avoid letting `CONTINUE.md` be
 - Session start order
 - Branch-per-agent convention
 - Chat handoff format
+- Agent-switch handoff format (cross-tool relay via `CONTINUE.md`)
 - Full handoff format
 - Session log rotation
 - Last-agent review
+- Optional agent ownership map
 - Conflict handling for session logs
 
 Your project files still own:
